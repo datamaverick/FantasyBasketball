@@ -1,0 +1,351 @@
+<html>
+ <head>
+  <title> Fantasy Basketball Tournament </title>
+  <script type="text/javascript" src="http://dave-reed.com/book/random.js"></script>
+  <script type="text/javascript">
+
+   roster_temp = ["Avengers", "Justice League", "Teen Titans", "Brotherhood Evil", "X-Men", "S.H.I.E.L.D", "ULTRON", "HYDRA"];
+   teams = [0, 0, 0, 0, 0, 0, 0, 0];             
+   offbonus = [4, 0, 7, 3, 2, 1, 6, 3];
+   defbonus = [1, 5, 4, 2, 6, 3, 5, 0];                    // Initialize 3 arrays, and a place holder array for randomizer        
+
+   var m = 7;
+   var n = 0;
+   var index, team1, team2, team3, team4, team5, team6, team7, team8;
+ 
+   while (m > 0 || n < 7) {
+	index = RandomInt(0, m);
+	teams[n] = roster_temp[index]
+	roster_temp.splice(index, 1);
+	n += 1;
+	m -= 1;
+   teams[7] = roster_temp[0];
+   }
+   
+   team1 = teams[0];
+   team2 = teams[1];
+   team3 = teams[2];
+   team4 = teams[3];	
+   team5 = teams[4];
+   team6 = teams[5];
+   team7 = teams[6];
+   team8 = teams[7];
+    
+    function TotalScore(index)
+   {
+        var offense, defense, chance, sub_total, total;
+	total = 0;
+	for (var i = 0; i < 4; i++) {
+
+      offense = Math.floor((RandomInt(1, 30) + offbonus[index]) * .4);
+      defense = Math.floor((RandomInt(1, 30) + defbonus[index]) * .4);
+      chance = Math.floor(RandomInt(1, 30) * .2);
+      sub_total = offense + defense + chance;           
+      total = total + sub_total;}
+
+      return total;
+    }   
+
+     function Tournament()
+   {
+      var score1, score2, score3, score4, score5, score6, score7, score8, semi1, semi2, semi3, semi4, semiscore1, semiscore2, semiscore3, semiscore4, final1, final2, finalscore1, finalscore2;
+      var index1, index2, index3, index4, index5, index6, index7, index8;
+
+	index1 = RandomInt(0, 7);    
+	index2 = RandomInt(0, 7);
+	index3 = RandomInt(0, 7);
+	index4 = RandomInt(0, 7);
+	index5 = RandomInt(0, 7);
+	index6 = RandomInt(0, 7);
+	index7 = RandomInt(0, 7);
+	index8 = RandomInt(0, 7);
+
+      score1 = TotalScore(index1)
+      score2 = TotalScore(index2)
+      score3 = TotalScore(index3)
+      score4 = TotalScore(index4)
+      score5 = TotalScore(index5)
+      score6 = TotalScore(index6)
+      score7 = TotalScore(index7)
+      score8 = TotalScore(index8)
+  
+      document.getElementById('score1Box').value = score1;               // Display the results in the corresponding boxes
+      document.getElementById('score2Box').value = score2;
+      document.getElementById('score3Box').value = score3;
+      document.getElementById('score4Box').value = score4;
+      document.getElementById('score5Box').value = score5;
+      document.getElementById('score6Box').value = score6;
+      document.getElementById('score7Box').value = score7;
+      document.getElementById('score8Box').value = score8;
+
+      while (score1 == score2) {                                         // If it's a tie recalculate score of 1 team
+         score1 = TotalScore(index1); }
+         document.getElementById('score1Box').value = score1;
+      if (score1 > score2) {
+       document.getElementById('semi1Box').value = team1; }
+      else if (score2 > score1) {
+       document.getElementById('semi1Box').value = team2; }
+
+      while (score3 == score4) {
+         score3 = TotalScore(index3); }
+         document.getElementById('score3Box').value = score3;
+      if (score3 > score4) {
+       document.getElementById('semi2Box').value = team3; }
+      else if (score4 > score3) {
+       document.getElementById('semi2Box').value = team4; }
+
+      while (score5 == score6) {
+         score5 = TotalScore(index5); }
+         document.getElementById('score5Box').value = score5;
+      if (score5 > score6) {
+       document.getElementById('semi3Box').value = team5; }
+      else if (score6 > score5) {
+       document.getElementById('semi3Box').value = team6; }
+
+      while (score7 == score8) {
+         score7 = TotalScore(index7); }
+         document.getElementById('score7Box').value = score7;
+      if (score7 > score8) {
+       document.getElementById('semi4Box').value = team7; }
+      else if (score8 > score7) {
+       document.getElementById('semi4Box').value = team8; }             // Done with ROUND 1, now move to ROUND 2      
+
+      semi1 = document.getElementById('semi1Box').value; 
+      semi2 = document.getElementById('semi2Box').value;
+      semi3 = document.getElementById('semi3Box').value;
+      semi4 = document.getElementById('semi4Box').value;
+
+      if (semi1 == team1) {                                            // Calculate scores for round 2, with  many ifs
+       semiscore1 = TotalScore(index1);
+       document.getElementById('semiscore1Box').value = semiscore1; }
+      else if (semi1 == team2) {
+       semiscore1 = TotalScore(index2);
+       document.getElementById('semiscore1Box').value = semiscore1; }
+      
+      if (semi2 == team3) {
+       semiscore2 = TotalScore(index3);
+       document.getElementById('semiscore2Box').value = semiscore2; }
+      else if (semi2 == team4) {
+       semiscore2 = TotalScore(index4);
+       document.getElementById('semiscore2Box').value = semiscore2; }
+
+      if (semi3 == team5) {
+       semiscore3 = TotalScore(index5);
+       document.getElementById('semiscore3Box').value = semiscore3; }
+      else if (semi3 == team6) {
+       semiscore3 = TotalScore(index6);
+       document.getElementById('semiscore3Box').value = semiscore3; }
+  
+      if (semi4 == team7) {
+       semiscore4 = TotalScore(index7);
+       document.getElementById('semiscore4Box').value = semiscore4; }
+      else if (semi4 == team8) {
+       semiscore4 = TotalScore(index8);
+       document.getElementById('semiscore4Box').value = semiscore4; }
+          
+      while (semiscore1 == semiscore2) {                               // If it's a tie recalculate score of 1 team. Only 1 team is needed
+        if (semi1 == team1) {
+        semiscore1 = TotalScore(index1); }
+        if (semi1 == team2) {
+        semiscore1 = TotalScore(index2); } }
+        document.getElementById('semiscore1Box').value = semiscore1;
+
+      if (semiscore1 > semiscore2) {                                  // The winner will be chosen from the semiBox
+       document.getElementById('final1Box').value = semi1; }
+      else if (semiscore2 > semiscore1) {
+       document.getElementById('final1Box').value = semi2; }
+
+      while (semiscore3 == semiscore4) {                               
+        if (semi3 == team5) {
+        semiscore3 = TotalScore(index5); }
+        if (semi3 == team6) {
+        semiscore3 = TotalScore(index6); } }
+        document.getElementById('semiscore3Box').value = semiscore3;
+
+      if (semiscore3 > semiscore4) {                                  
+       document.getElementById('final2Box').value = semi3; }
+      else if (semiscore4 > semiscore3) {
+       document.getElementById('final2Box').value = semi4; }         // Done with ROUND 2, now move to ROUND 3
+
+      final1 = document.getElementById('final1Box').value;
+      final2 = document.getElementById('final2Box').value;
+      
+      if (final1 == semi1) {                                        // final1 can either be semi1 or semi2, each with 2 ifs
+        if (semi1 == team1) {                                            
+        finalscore1 = TotalScore(index1);
+        document.getElementById('finalscore1Box').value = finalscore1; }
+      else if (semi1 == team2) {
+        finalscore1 = TotalScore(index2);
+        document.getElementById('finalscore1Box').value = finalscore1; } }
+
+      else if (final1 == semi2) {                                        
+        if (semi2 == team3) {                                            
+        finalscore1 = TotalScore(index3);
+        document.getElementById('finalscore1Box').value = finalscore1; }
+      else if (semi2 == team4) {
+        finalscore1 = TotalScore(index4);
+        document.getElementById('finalscore1Box').value = finalscore1; } }
+
+      if (final2 == semi3) {                                        // same with final2, can either be semi3 or semi4, each with 2 ifs
+        if (semi3 == team5) {                                            
+        finalscore2 = TotalScore(index5);
+        document.getElementById('finalscore2Box').value = finalscore2; }
+      else if (semi3 == team6) {
+        finalscore2 = TotalScore(index6);
+        document.getElementById('finalscore2Box').value = finalscore2; } }
+
+      else if (final2 == semi4) {                                        
+        if (semi4 == team7) {                                            
+        finalscore2 = TotalScore(index7);
+        document.getElementById('finalscore2Box').value = finalscore2; }
+      else if (semi4 == team8) {
+        finalscore2 = TotalScore(index8);
+        document.getElementById('finalscore2Box').value = finalscore2; } }
+
+     while (finalscore1 == finalscore2) {                          // If it's a tie recalculate score of 1 team. Only 1 team is needed
+      if (final1 == semi1) {
+        if (semi1 == team1) {
+        finalscore1 = TotalScore(index1); }
+        if (semi1 == team2) {
+        finalscore1 = TotalScore(index2); } }
+      if (final1 == semi2) {
+        if (semi2 == team3) {
+        finalscore1 = TotalScore(index3); }
+        if (semi1 == team4) {
+        finalscore1 = TotalScore(index4); } }
+      }
+        document.getElementById('finalscore1Box').value = finalscore1;
+
+      if (finalscore1 > finalscore2) {                                  
+       document.getElementById('championBox').value = final1; }
+      else if (finalscore2 > finalscore1) {
+       document.getElementById('championBox').value = final2; }    // And thus the end of the tournament. Congrats to the champion!!!
+
+   }
+  </script>
+ </head>
+
+ <body>
+  <div style="text-align:center">
+  <h3 style="color:orange"><b><i> Basket Tournament Simulator </i></b></h3>
+  <p>   
+    <table>
+     <tr> <td><big><b><span style="color:skyblue"> ROUND 1: </span></b></big></td>
+   <td><input type="text" id="team1Box" size="10" value="" /></td><td> vs </td><td><input type="text" id="team2Box" size="10" value="" /></td> 
+   <td><input type="text" id="team3Box" size="10" value="" /></td><td> vs </td><td><input type="text" id="team4Box" size="10" value="" /></td>
+   <td><input type="text" id="team5Box" size="10" value="" /></td><td> vs </td><td><input type="text" id="team6Box" size="10" value="" /></td>
+   <td><input type="text" id="team7Box" size="10" value="" /></td><td> vs </td><td><input type="text" id="team8Box" size="10" value="" /></td>
+     </tr>
+    </table>
+  </p>
+  <script type="text/javascript">
+       document.getElementById('team1Box').value = team1;
+       document.getElementById('team2Box').value = team2;
+       document.getElementById('team3Box').value = team3;
+       document.getElementById('team4Box').value = team4;
+       document.getElementById('team5Box').value = team5;
+       document.getElementById('team6Box').value = team6;
+       document.getElementById('team7Box').value = team7;
+       document.getElementById('team8Box').value = team8;
+  </script>
+
+  <p>
+    <input type="button" value="Start the tournament" onclick="Tournament();" />
+  </p>
+
+  <p>
+    <table>
+     <tr> <td><big><b><span style="color:skyblue"> SCORE: </span></b></big> &nbsp;&nbsp;&nbsp;</td>
+   <td><input type="text" id="score1Box" size="10" value="" /></td><td> -&nbsp; </td><td><input type="text" id="score2Box" size="10" value="" /></td>   
+   <td><input type="text" id="score3Box" size="10" value="" /></td><td> -&nbsp;</td><td><input type="text" id="score4Box" size="10" value="" /></td>
+   <td><input type="text" id="score5Box" size="10" value="" /></td><td> -&nbsp;</td><td><input type="text" id="score6Box" size="10" value="" /></td>
+   <td><input type="text" id="score7Box" size="10" value="" /></td><td> -&nbsp;</td><td><input type="text" id="score8Box" size="10" value="" /></td> 
+     </tr>
+    </table>
+  </p>
+
+  <br /><hr /><br />
+
+  <p>
+    <table>
+     <tr> <td><big><b><span style="color:red"> ROUND 2: </span></b></big></td>
+   <td> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
+
+   <td><input type="text" id="semi1Box" size="10" value="" /></td>
+   <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; vs &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+
+   <td><input type="text" id="semi2Box" size="10" value="" />
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td> 
+
+   <td><input type="text" id="semi3Box" size="10" value="" /></td>
+
+   <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; vs &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+
+   <td><input type="text" id="semi4Box" size="10" value="" /></td>
+     </tr>
+    </table>
+  </p>
+
+  <p>
+    <table>
+     <tr> <td><big><b><span style="color:red"> SCORE: </span></b></big> &nbsp;&nbsp;&nbsp;</td>
+   <td> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
+
+   <td><input type="text" id="semiscore1Box" size="10" value="" /></td>
+
+   <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+
+   <td><input type="text" id="semiscore2Box" size="10" value="" />
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td> 
+
+   <td><input type="text" id="semiscore3Box" size="10" value="" /></td>
+
+   <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+
+   <td><input type="text" id="semiscore4Box" size="10" value="" /></td>
+     </tr>
+    </table>
+  </p>
+
+  <br /><hr /><br />
+
+  <p>
+    <table>
+     <tr> <td><big><b><span style="color:yellow"> ROUND 3: </span></b></big></td>
+   <td> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   
+   <td><input type="text" id="final1Box" size="10" value="" /></td>
+   <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+       vs
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+
+   <td><input type="text" id="final2Box" size="10" value="" /></td>
+     </tr>
+    </table>
+  </p>
+
+  <p>
+    <table>
+     <tr> <td><big><b><span style="color:yellow"> SCORE: </span></b></big> &nbsp;&nbsp;&nbsp;</td>
+   <td> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   
+   <td><input type="text" id="finalscore1Box" size="10" value="" /></td>
+   <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+       -
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+
+   <td><input type="text" id="finalscore2Box" size="10" value="" /></td>
+     </tr>
+    </table>
+  </p>
+
+  <br /><hr /><br />
+
+  <h3 style="color:teal">
+      <b><i> CHAMPION: </i></b> <input type="text" id="championBox" size="10" value="" />
+  </h3>
+  </div>
+ </body>
+</html>
